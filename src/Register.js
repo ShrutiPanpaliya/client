@@ -1,21 +1,52 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import "./styles.css";
 import Logo from "./asset/logo.svg.PNG";
 import { Link,useNavigate } from 'react-router-dom';
-
+import { registerUser } from "./Service/UserService";
 
 export default function Register() {
   const navigate = useNavigate();
- 
+  const[ user,setUser]=useState([]); 
   
   const { register, handleSubmit, formState: { errors }} = useForm();
 
   const onSubmit = (data) => {
     console.log(data);
     navigate('/Login');
+    
   };
+  
+const userCreate = (e)=>{
+  registerUser(user).then (response =>{
+    console.log(response);
 
+  });
+};
+const onChangeForm = (e) =>
+    {
+      if(e.target.name === 'userName')
+      {
+        user.userName = e.target.value;
+      }
+      else if(e.target.name === 'firstName')
+      {
+        user.firstName=e.target.value;
+      }
+      else if(e.target.name === 'lastName')
+      {
+        user.lastName = e.target.value;
+      }
+      else if(e.target.name === 'password')
+      {
+        user.password = e.target.value;
+      } 
+      else if(e.target.name === 'gender')
+      {
+        user.gender = e.target.value;
+      }
+      setUser(user);
+    }
   return (
     
     <>
@@ -51,7 +82,7 @@ export default function Register() {
 
         <div className="form-control">
           <label></label>
-          <button type="submit">Login</button>
+          <button type="submit" onClick={onChangeForm}>Login</button>
         </div>
         <span>
             Already have an account ? <Link to="/Login">Login.</Link>
